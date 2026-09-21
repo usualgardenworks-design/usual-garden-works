@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>教室の内容を編集する | usual garden works</title>
+<style>
+:root{
+  --ink:#23291f;--moss:#3f5340;--paper:#f2f3ee;--line:#d8d8cd;--stone:#75796d;--gold:#b8862a;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Hiragino Sans","Yu Gothic",system-ui,sans-serif;font-size:15px;line-height:1.7;
+  padding-bottom:calc(90px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:900px;margin:0 auto;padding:0 18px}
+header{background:var(--moss);color:#fff;padding:22px 0}
+header h1{margin:0;font-size:19px;font-weight:700}
+header p{margin:4px 0 0;font-size:13px;color:#cfd6c8}
+.steps{background:#fff;border:1px solid var(--line);border-radius:4px;padding:18px 20px;margin:24px 0}
+.steps h2{margin:0 0 10px;font-size:15px}
+.steps ol{margin:0;padding-left:1.3em;font-size:14px;color:#42483c}
+.steps li{margin-bottom:5px}
+.banner{border-radius:4px;padding:12px 16px;margin:20px 0;font-size:14px;
+  background:#f3ead5;border:1px solid #e3d3ac}
+.banner.ok{background:#eaf0e6;border-color:#cfdcc6}
+.bar{position:fixed;left:0;right:0;bottom:0;background:rgba(242,243,238,.96);backdrop-filter:blur(8px);
+  border-top:1px solid var(--line);padding:12px 0 calc(12px + env(safe-area-inset-bottom,0px));z-index:20}
+.bar .wrap{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+button,.filebtn{font:inherit;cursor:pointer;border:1px solid var(--line);background:#fff;
+  color:var(--ink);padding:9px 16px;border-radius:3px}
+button:hover,.filebtn:hover{border-color:var(--moss)}
+.primary{background:var(--moss);border-color:var(--moss);color:#fff;font-weight:700}
+.primary:hover{background:#2f3e30}
+.danger{color:#a4402f;border-color:#e3cdc7}
+.filebtn{display:inline-block}
+.filebtn input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+fieldset{border:1px solid var(--line);background:#fff;border-radius:4px;margin:0 0 18px;padding:18px 20px 20px}
+legend{font-weight:700;font-size:14px;padding:0 8px;color:var(--moss)}
+label{display:block;font-size:13px;color:var(--stone);margin:12px 0 4px}
+input[type=text],input[type=url],textarea,select{
+  width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:3px;
+  font:inherit;background:#fdfdfb;color:var(--ink)}
+textarea{min-height:92px;resize:vertical;line-height:1.7}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 16px}
+@media(max-width:640px){.row,.row3{grid-template-columns:1fr}}
+.hint{font-size:12px;color:var(--stone);margin:4px 0 0}
+.lesson{border:1px solid var(--line);background:#fff;border-radius:4px;margin:0 0 16px}
+.lesson>summary{cursor:pointer;padding:14px 18px;font-weight:700;display:flex;
+  align-items:center;gap:10px;list-style:none}
+.lesson>summary::-webkit-details-marker{display:none}
+.lesson>summary::before{content:"▶";font-size:11px;color:var(--stone)}
+.lesson[open]>summary::before{content:"▼"}
+.lesson .inner{padding:0 18px 20px;border-top:1px solid var(--line)}
+.tools{display:flex;gap:8px;margin-left:auto}
+.tools button{padding:4px 10px;font-size:12px}
+.pill{font-size:11px;font-weight:400;background:#eef1ea;color:var(--moss);
+  border-radius:2px;padding:2px 8px}
+.photo-box{border:1px dashed var(--line);border-radius:3px;padding:14px;margin-top:6px;background:#fbfbf8}
+.thumbs{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.thumb{position:relative}
+.thumb img{width:88px;height:66px;object-fit:cover;border:1px solid var(--line);border-radius:3px;display:block;background:#eee}
+.thumb button{position:absolute;top:-8px;right:-8px;width:22px;height:22px;padding:0;
+  border-radius:50%;background:#fff;line-height:1}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:96px;background:var(--ink);
+  color:#fff;padding:11px 20px;border-radius:3px;font-size:14px;opacity:0;
+  transition:opacity .25s;pointer-events:none;z-index:99;max-width:90vw;text-align:center}
+#toast.on{opacity:1}
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <h1>教室の内容を編集する</h1>
+  <p>このページはお店の人用です。お客様には見えません。</p>
+</div></header>
+
+<div class="wrap">
+
+  <div id="banner" class="banner"></div>
+
+  <div class="steps">
+    <h2>更新のしかた</h2>
+    <ol>
+      <li>下の内容を書きかえます（写真を選ぶと、自動で軽くしてダウンロードされます）</li>
+      <li>ダウンロードされた写真を、サイトの <code>images</code> フォルダに入れます</li>
+      <li>いちばん下の「content.json を書き出す」を押します</li>
+      <li>site フォルダごと Netlify にドラッグ＆ドロップすれば公開完了です</li>
+    </ol>
+  </div>
+
+  <div id="site-area"></div>
+  <div id="lesson-area"></div>
+</div>
+
+<div class="bar"><div class="wrap">
+  <button class="primary" onclick="exportJson()">content.json を書き出す</button>
+  <button onclick="addLesson()">＋ 教室を追加</button>
+  <label class="filebtn">content.json を読み込む
+    <input type="file" accept=".json,application/json" onchange="importJson(this)">
+  </label>
+</div></div>
+
+<div id="toast"></div>
+
+<!-- 何も読み込めなかったときに使う初期内容 -->
+<script type="application/json" id="default-content">
+{"site":{"name":"usual garden works","tagline":"いわきの庭仕事屋","logo":"","heroHeading":"土にふれる、\n半日のこと。","heroText":"季節の草花をならべて、鉢のなかに小さな景色をつくります。少人数なので、はじめての方もご自分のペースでどうぞ。","heroImage":"images/hero.jpg","notice":"","flowHeading":"はじめての方へ","flow":[{"title":"予約する","text":"教室ごとの「空き状況を見て予約する」から、ご都合のよい日時をお選びください。"},{"title":"手ぶらで来る","text":"苗も土も鉢も道具もこちらでご用意します。汚れてもよい服装でお越しください。"},{"title":"持って帰る","text":"その日つくった鉢はお持ち帰りいただけます。お手入れの仕方もお伝えします。"}],"access":{"address":"福島県いわき市常磐馬玉町数馬61","parking":"店舗前に12台分","tel":"070-4176-5655","email":"usualgardenworks@gmail.com","hours":"教室開催日のみ","mapQuery":"福島県いわき市常磐馬玉町数馬61"}},"lessons":[{"id":"succulent-terrarium","title":"多肉植物のミニテラリウム","status":"募集中","schedule":"日程は予約ページでご確認ください","price":"3,500円","duration":"約90分","capacity":"各回4名","level":"はじめての方も歓迎","bring":"エプロン、持ち帰り用の袋","desc":"いろいろな種類の多肉植物を使って、ガラス容器のなかに小さな世界をつくります。\nお手入れがかんたんなので、室内のインテリアにもぴったりです。","image":"images/lesson-terrarium.jpg","gallery":[],"videoUrl":"","reserveUrl":"https://airrsv.net/"},{"id":"autumn-container","title":"季節の花の寄せ植え（秋）","status":"募集中","schedule":"日程は予約ページでご確認ください","price":"5,000円","duration":"約120分","capacity":"各回3名","level":"はじめて〜経験者","bring":"エプロン、手袋、園芸用ハサミ","desc":"秋を感じる草花をたっぷり使って、玄関さきを彩る寄せ植えをつくります。\n鉢の選び方から土の配合まで、おうちで再現できるところまでお伝えします。","image":"images/lesson-autumn.jpg","gallery":[],"videoUrl":"","reserveUrl":"https://airrsv.net/"}]}
+</script>
+
+<script>
+"use strict";
+
+var STATUSES = ["募集中","残りわずか","満席","受付終了"];
+var DRAFT_KEY = "ugw_editor_draft";
+var data = { site:{ access:{}, flow:[] }, lessons:[] };
+var openRows = { 0:true };   // 開いている教室パネルを覚えておく
+
+function esc(s){ return String(s==null?"":s)
+  .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
+
+function toast(msg){
+  var t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("on");
+  clearTimeout(t._h); t._h = setTimeout(function(){ t.classList.remove("on"); }, 3200);
+}
+function banner(msg, ok){
+  var b = document.getElementById("banner");
+  b.textContent = msg;
+  b.className = "banner" + (ok ? " ok" : "");
+  b.style.display = msg ? "block" : "none";
+}
+
+/* ---------- 下書きの自動保存 ---------- */
+function saveDraft(){
+  try { localStorage.setItem(DRAFT_KEY, JSON.stringify(data)); } catch(e){}
+}
+function touch(){ clearTimeout(touch._h); touch._h = setTimeout(saveDraft, 400); }
+
+/* ---------- 値の更新（再描画しないので入力が途切れません） ---------- */
+function setSite(path, val){
+  var keys = path.split("."), o = data.site;
+  while (keys.length > 1) { var k = keys.shift(); o[k] = o[k] || {}; o = o[k]; }
+  o[keys[0]] = val; touch();
+}
+function setFlow(i, key, val){ data.site.flow[i][key] = val; touch(); }
+function setLesson(i, key, val){ data.lessons[i][key] = val; touch(); }
+
+/* ---------- 写真：縮小して端末にダウンロード ---------- */
+function slug(s){
+  var t = String(s||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+  return t || "photo";
+}
+function download(blob, name){
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.style.display = "none";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 8000);
+}
+function pickPhoto(input, onDone, nameHint){
+  var file = input.files && input.files[0];
+  input.value = "";
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    var im = new Image();
+    im.onerror = function(){ toast("この画像は読み込めませんでした。JPEGかPNGをお試しください。"); };
+    im.onload = function(){
+      var MAX = 1600, w = im.width, h = im.height;
+      if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+      var c = document.createElement("canvas");
+      c.width = w; c.height = h;
+      c.getContext("2d").drawImage(im, 0, 0, w, h);
+      c.toBlob(function(blob){
+        var name = slug(nameHint) + "-" + Date.now().toString(36) + ".jpg";
+        download(blob, name);
+        onDone("images/" + name);
+        saveDraft();
+        toast(name + " をダウンロードしました。images フォルダに入れてください。");
+      }, "image/jpeg", 0.82);
+    };
+    im.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ---------- 描画 ---------- */
+function renderSite(){
+  var s = data.site, a = s.access || (s.access = {});
+  s.flow = s.flow || [];
+  document.getElementById("site-area").innerHTML =
+  '<fieldset><legend>トップページ</legend>' +
+    '<label>お知らせ（空にすると非表示になります）</label>' +
+    '<input type="text" value="'+esc(s.notice)+'" oninput="setSite(\'notice\',this.value)" placeholder="例：10月の教室は満席になりました">' +
+    '<label>大見出し（改行できます）</label>' +
+    '<textarea style="min-height:70px" oninput="setSite(\'heroHeading\',this.value)">'+esc(s.heroHeading)+'</textarea>' +
+    '<label>リード文</label>' +
+    '<textarea oninput="setSite(\'heroText\',this.value)">'+esc(s.heroText)+'</textarea>' +
+    '<label>トップの写真</label>' +
+    '<div class="photo-box">' +
+      '<label class="filebtn">写真を選ぶ<input type="file" accept="image/*" ' +
+        'onchange="pickPhoto(this,function(p){setSite(\'heroImage\',p);renderSite();},\'hero\')"></label> ' +
+      '<span class="hint">'+esc(s.heroImage||"未設定")+'</span>' +
+      (s.heroImage ? '<div class="thumbs"><div class="thumb"><img src="'+esc(s.heroImage)+'" alt="" onerror="this.style.opacity=.25">' +
+        '<button type="button" onclick="setSite(\'heroImage\',\'\');renderSite()">×</button></div></div>' : '') +
+    '</div>' +
+    '<label>ロゴ画像（任意・文字だけでよければ空のまま）</label>' +
+    '<div class="photo-box">' +
+      '<label class="filebtn">ロゴを選ぶ<input type="file" accept="image/*" ' +
+        'onchange="pickPhoto(this,function(p){setSite(\'logo\',p);renderSite();},\'logo\')"></label> ' +
+      '<span class="hint">'+esc(s.logo||"未設定")+'</span>' +
+      (s.logo ? '<div class="thumbs"><div class="thumb"><img src="'+esc(s.logo)+'" alt="" onerror="this.style.opacity=.25">' +
+        '<button type="button" onclick="setSite(\'logo\',\'\');renderSite()">×</button></div></div>' : '') +
+    '</div>' +
+  '</fieldset>' +
+
+  '<fieldset><legend>はじめての方へ</legend>' +
+    '<label>見出し</label>' +
+    '<input type="text" value="'+esc(s.flowHeading)+'" oninput="setSite(\'flowHeading\',this.value)">' +
+    s.flow.map(function(f,i){
+      return '<div class="row"><div><label>'+(i+1)+'. 小見出し</label>' +
+        '<input type="text" value="'+esc(f.title)+'" oninput="setFlow('+i+',\'title\',this.value)"></div>' +
+        '<div><label>説明</label>' +
+        '<input type="text" value="'+esc(f.text)+'" oninput="setFlow('+i+',\'text\',this.value)"></div></div>';
+    }).join("") +
+  '</fieldset>' +
+
+  '<fieldset><legend>お店の情報</legend>' +
+    '<div class="row">' +
+      '<div><label>屋号</label><input type="text" value="'+esc(s.name)+'" oninput="setSite(\'name\',this.value)"></div>' +
+      '<div><label>ひとこと紹介</label><input type="text" value="'+esc(s.tagline)+'" oninput="setSite(\'tagline\',this.value)"></div>' +
+    '</div>' +
+    '<label>住所</label><input type="text" value="'+esc(a.address)+'" oninput="setSite(\'access.address\',this.value)">' +
+    '<div class="row3">' +
+      '<div><label>電話</label><input type="text" value="'+esc(a.tel)+'" oninput="setSite(\'access.tel\',this.value)"></div>' +
+      '<div><label>メール</label><input type="text" value="'+esc(a.email)+'" oninput="setSite(\'access.email\',this.value)"></div>' +
+      '<div><label>駐車場</label><input type="text" value="'+esc(a.parking)+'" oninput="setSite(\'access.parking\',this.value)"></div>' +
+    '</div>' +
+    '<div class="row">' +
+      '<div><label>営業</label><input type="text" value="'+esc(a.hours)+'" oninput="setSite(\'access.hours\',this.value)"></div>' +
+      '<div><label>地図に表示する場所</label><input type="text" value="'+esc(a.mapQuery)+'" oninput="setSite(\'access.mapQuery\',this.value)">' +
+      '<p class="hint">Googleマップで検索して正しく出る住所を入れてください</p></div>' +
+    '</div>' +
+  '</fieldset>';
+}
+
+function rememberOpen(){
+  var list = document.querySelectorAll("#lesson-area details.lesson");
+  openRows = {};
+  for (var i = 0; i < list.length; i++) if (list[i].open) openRows[i] = true;
+}
+
+function renderLessons(){
+  document.getElementById("lesson-area").innerHTML =
+  '<h2 style="font-size:16px;margin:28px 0 14px">教室（'+data.lessons.length+'件）</h2>' +
+  (data.lessons.length ? "" :
+    '<p class="hint" style="margin-bottom:16px">教室がありません。下の「＋ 教室を追加」から作れます。</p>') +
+  data.lessons.map(function(l,i){
+    l.gallery = l.gallery || [];
+    return '<details class="lesson"'+(openRows[i]?' open':'')+' ontoggle="rememberOpen()">' +
+      '<summary>'+esc(l.title||"（名前未設定）")+' <span class="pill">'+esc(l.status||"")+'</span>' +
+        '<span class="tools">' +
+          '<button type="button" onclick="event.preventDefault();moveLesson('+i+',-1)">↑</button>' +
+          '<button type="button" onclick="event.preventDefault();moveLesson('+i+',1)">↓</button>' +
+          '<button type="button" class="danger" onclick="event.preventDefault();removeLesson('+i+')">削除</button>' +
+        '</span></summary>' +
+      '<div class="inner">' +
+        '<label>教室の名前</label>' +
+        '<input type="text" value="'+esc(l.title)+'" oninput="setLesson('+i+',\'title\',this.value)">' +
+        '<div class="row3">' +
+          '<div><label>募集状況</label><select onchange="setLesson('+i+',\'status\',this.value);refreshTitle('+i+')">' +
+            STATUSES.map(function(s){ return '<option'+(l.status===s?' selected':'')+'>'+s+'</option>'; }).join("") +
+          '</select></div>' +
+          '<div><label>料金</label><input type="text" value="'+esc(l.price)+'" oninput="setLesson('+i+',\'price\',this.value)" placeholder="5,000円"></div>' +
+          '<div><label>対象</label><input type="text" value="'+esc(l.level)+'" oninput="setLesson('+i+',\'level\',this.value)" placeholder="はじめての方も歓迎"></div>' +
+        '</div>' +
+        '<label>日程</label>' +
+        '<input type="text" value="'+esc(l.schedule)+'" oninput="setLesson('+i+',\'schedule\',this.value)" placeholder="10月12日(日) 10:00 / 13:30">' +
+        '<div class="row3">' +
+          '<div><label>所要時間</label><input type="text" value="'+esc(l.duration)+'" oninput="setLesson('+i+',\'duration\',this.value)" placeholder="約120分"></div>' +
+          '<div><label>定員</label><input type="text" value="'+esc(l.capacity)+'" oninput="setLesson('+i+',\'capacity\',this.value)" placeholder="各回3名"></div>' +
+          '<div><label>持ち物</label><input type="text" value="'+esc(l.bring)+'" oninput="setLesson('+i+',\'bring\',this.value)" placeholder="エプロンなど"></div>' +
+        '</div>' +
+        '<label>説明文</label>' +
+        '<textarea oninput="setLesson('+i+',\'desc\',this.value)">'+esc(l.desc)+'</textarea>' +
+
+        '<label>メイン写真</label><div class="photo-box">' +
+          '<label class="filebtn">写真を選ぶ<input type="file" accept="image/*" ' +
+            'onchange="pickPhoto(this,function(p){setLesson('+i+',\'image\',p);renderLessons()},\''+slug(l.id||l.title)+'\')"></label> ' +
+          '<span class="hint">'+esc(l.image||"未設定")+'</span>' +
+          (l.image ? '<div class="thumbs"><div class="thumb"><img src="'+esc(l.image)+'" alt="" onerror="this.style.opacity=.25">' +
+            '<button type="button" onclick="setLesson('+i+',\'image\',\'\');renderLessons()">×</button></div></div>' : '') +
+        '</div>' +
+
+        '<label>当日のようす（何枚でも）</label><div class="photo-box">' +
+          '<label class="filebtn">写真を追加<input type="file" accept="image/*" ' +
+            'onchange="pickPhoto(this,function(p){data.lessons['+i+'].gallery.push(p);renderLessons()},\''+slug(l.id||l.title)+'-sub\')"></label>' +
+          (l.gallery.length ? '<div class="thumbs">' + l.gallery.map(function(g,gi){
+            return '<div class="thumb"><img src="'+esc(g)+'" alt="" onerror="this.style.opacity=.25">' +
+              '<button type="button" onclick="data.lessons['+i+'].gallery.splice('+gi+',1);saveDraft();renderLessons()">×</button></div>';
+          }).join("") + '</div>' : '') +
+        '</div>' +
+
+        '<div class="row">' +
+          '<div><label>動画（YouTubeのURL・任意）</label>' +
+            '<input type="url" value="'+esc(l.videoUrl)+'" oninput="setLesson('+i+',\'videoUrl\',this.value)" placeholder="https://www.youtube.com/watch?v=..."></div>' +
+          '<div><label>Airリザーブの予約ページURL</label>' +
+            '<input type="url" value="'+esc(l.reserveUrl)+'" oninput="setLesson('+i+',\'reserveUrl\',this.value)" placeholder="https://airrsv.net/...">' +
+            '<p class="hint">空のままだと予約ボタンが押せなくなります</p></div>' +
+        '</div>' +
+      '</div></details>';
+  }).join("");
+}
+
+/* パネルを閉じずに見出しだけ更新する */
+function refreshTitle(i){
+  var d = document.querySelectorAll("#lesson-area details.lesson")[i];
+  if (!d) return;
+  var l = data.lessons[i];
+  d.querySelector("summary").firstChild.nodeValue = (l.title || "（名前未設定）") + " ";
+  d.querySelector(".pill").textContent = l.status || "";
+}
+
+function render(){ renderSite(); renderLessons(); }
+
+/* ---------- 教室の操作 ---------- */
+function addLesson(){
+  rememberOpen();
+  var shifted = { 0:true };
+  for (var k in openRows) shifted[Number(k) + 1] = true;
+  openRows = shifted;
+  data.lessons.unshift({
+    id: "lesson-" + Date.now().toString(36),
+    title:"", status:"募集中", schedule:"", price:"", duration:"", capacity:"",
+    level:"はじめての方も歓迎", bring:"", desc:"", image:"", gallery:[], videoUrl:"",
+    reserveUrl:"https://airrsv.net/"
+  });
+  saveDraft(); renderLessons();
+  document.getElementById("lesson-area").scrollIntoView({ block:"start" });
+}
+function removeLesson(i){
+  if (!confirm("「" + (data.lessons[i].title || "この教室") + "」を消します。よろしいですか？")) return;
+  rememberOpen();
+  data.lessons.splice(i,1);
+  saveDraft(); renderLessons();
+}
+function moveLesson(i, d){
+  var j = i + d;
+  if (j < 0 || j >= data.lessons.length) return;
+  rememberOpen();
+  var t = data.lessons[i]; data.lessons[i] = data.lessons[j]; data.lessons[j] = t;
+  var a = !!openRows[i], b = !!openRows[j];
+  openRows[i] = b; openRows[j] = a;
+  saveDraft(); renderLessons();
+}
+
+/* ---------- 読み込み・書き出し ---------- */
+function applyData(d){
+  data = d || {};
+  data.site = data.site || {};
+  data.site.access = data.site.access || {};
+  data.site.flow = data.site.flow || [];
+  data.lessons = data.lessons || [];
+  openRows = { 0:true };
+  render();
+}
+function importJson(input){
+  var f = input.files && input.files[0];
+  input.value = "";
+  if (!f) return;
+  var r = new FileReader();
+  r.onload = function(e){
+    var parsed;
+    try { parsed = JSON.parse(e.target.result); }
+    catch (err) { toast("このファイルは読み込めません。content.json を選んでください。"); return; }
+    applyData(parsed); saveDraft();
+    banner("読み込んだ content.json を編集しています。", true);
+    toast("読み込みました");
+  };
+  r.readAsText(f);
+}
+function exportJson(){
+  var missing = data.lessons.filter(function(l){ return !l.title; }).length;
+  if (missing && !confirm("名前が空の教室が " + missing + " 件あります。このまま書き出しますか？")) return;
+  download(new Blob([JSON.stringify(data, null, 2)], { type:"application/json" }), "content.json");
+  toast("content.json を書き出しました。site フォルダの中の同名ファイルに上書きしてください。");
+}
+function resetToFile(){
+  if (!confirm("下書きを捨てて、最初の状態に戻します。よろしいですか？")) return;
+  try { localStorage.removeItem(DRAFT_KEY); } catch(e){}
+  location.reload();
+}
+
+/* ---------- 起動 ---------- */
+function defaults(){
+  try { return JSON.parse(document.getElementById("default-content").textContent); }
+  catch (e) { return { site:{ access:{}, flow:[] }, lessons:[] }; }
+}
+
+(function start(){
+  var draft = null;
+  try { draft = JSON.parse(localStorage.getItem(DRAFT_KEY) || "null"); } catch(e){}
+
+  if (draft) {
+    applyData(draft);
+    banner("前回の続きから編集しています。最初からやり直すときは「content.json を読み込む」を使ってください。", true);
+    return;
+  }
+
+  fetch("content.json", { cache:"no-cache" })
+    .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+    .then(function(d){
+      applyData(d);
+      banner("公開中の content.json を読み込みました。", true);
+    })
+    .catch(function(){
+      applyData(defaults());
+      banner("いまの content.json を自動では読めませんでした（このファイルを直接開いた場合は通常のことです）。"
+        + "下の「content.json を読み込む」から site フォルダの content.json を選ぶと、公開中の内容から編集できます。", false);
+    });
+})();
+</script>
+</body>
+</html>
