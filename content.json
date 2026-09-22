@@ -1,13 +1,18 @@
 {
   "site": {
-    "name": "usual garden works",
-    "tagline": "いわきの庭仕事屋",
-    "logo": "",
-    "heroHeading": "土にふれる、\n半日のこと。",
+    "heroImage": "img_0476.jpg",
+    "access": {
+      "address": "福島県いわき市常磐馬玉町数馬61",
+      "parking": "店舗前に12台分",
+      "tel": "070-4176-5655",
+      "email": "usualgardenworks@gmail.com",
+      "hours": "教室開催日のみ",
+      "mapQuery": "福島県いわき市常磐馬玉町数馬61"
+    },
     "heroText": "季節の草花をならべて、鉢のなかに小さな景色をつくります。少人数なので、はじめての方もご自分のペースでどうぞ。",
-    "heroImage": "images/hero.jpg",
-    "notice": "",
-    "flowHeading": "はじめての方へ",
+    "heroHeading": "土にふれる、\n半日のこと。",
+    "logo": "",
+    "name": "usual garden works",
     "flow": [
       {
         "title": "予約する",
@@ -22,47 +27,42 @@
         "text": "その日つくった鉢はお持ち帰りいただけます。お手入れの仕方もお伝えします。"
       }
     ],
-    "access": {
-      "address": "福島県いわき市常磐馬玉町数馬61",
-      "parking": "店舗前に12台分",
-      "tel": "070-4176-5655",
-      "email": "usualgardenworks@gmail.com",
-      "hours": "教室開催日のみ",
-      "mapQuery": "福島県いわき市常磐馬玉町数馬61"
-    }
+    "tagline": "いわきの庭仕事屋",
+    "flowHeading": "はじめての方へ",
+    "notice": ""
   },
   "lessons": [
     {
-      "id": "succulent-terrarium",
-      "title": "多肉植物のミニテラリウム",
-      "status": "募集中",
-      "schedule": "日程は予約ページでご確認ください",
-      "price": "3,500円",
-      "duration": "約90分",
-      "capacity": "各回4名",
       "level": "はじめての方も歓迎",
-      "bring": "エプロン、持ち帰り用の袋",
+      "price": "3,500円",
       "desc": "いろいろな種類の多肉植物を使って、ガラス容器のなかに小さな世界をつくります。\nお手入れがかんたんなので、室内のインテリアにもぴったりです。",
-      "image": "images/lesson-terrarium.jpg",
+      "bring": "エプロン、持ち帰り用の袋",
       "gallery": [],
+      "status": "募集中",
+      "reserveUrl": "https://airrsv.net/",
+      "duration": "約90分",
       "videoUrl": "",
-      "reserveUrl": "https://airrsv.net/"
+      "schedule": "日程は予約ページでご確認ください",
+      "title": "多肉植物のミニテラリウム",
+      "capacity": "各回4名",
+      "id": "succulent-terrarium",
+      "image": "images/lesson-terrarium.jpg"
     },
     {
-      "id": "autumn-container",
-      "title": "季節の花の寄せ植え（秋）",
-      "status": "募集中",
-      "schedule": "日程は予約ページでご確認ください",
-      "price": "5,000円",
-      "duration": "約120分",
-      "capacity": "各回3名",
       "level": "はじめて〜経験者",
-      "bring": "エプロン、手袋、園芸用ハサミ",
+      "price": "5,000円",
       "desc": "秋を感じる草花をたっぷり使って、玄関さきを彩る寄せ植えをつくります。\n鉢の選び方から土の配合まで、おうちで再現できるところまでお伝えします。",
-      "image": "images/lesson-autumn.jpg",
+      "bring": "エプロン、手袋、園芸用ハサミ",
       "gallery": [],
+      "status": "募集中",
+      "reserveUrl": "https://airrsv.net/",
+      "duration": "約120分",
       "videoUrl": "",
-      "reserveUrl": "https://airrsv.net/"
+      "schedule": "日程は予約ページでご確認ください",
+      "title": "季節の花の寄せ植え（秋）",
+      "capacity": "各回3名",
+      "id": "autumn-container",
+      "image": "images/lesson-autumn.jpg"
     }
   ]
 }
