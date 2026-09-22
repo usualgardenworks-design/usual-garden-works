@@ -1,0 +1,65 @@
+backend:
+  name: github
+  repo: usualgardenworks-design/usual-garden-works
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+locale: "ja"
+
+collections:
+  - name: "content"
+    label: "サイトの内容"
+    files:
+      - name: "main"
+        label: "教室と店舗情報"
+        file: "content.json"
+        fields:
+          - name: site
+            label: "お店・トップページ"
+            widget: object
+            fields:
+              - { name: name, label: "屋号", widget: string }
+              - { name: tagline, label: "ひとこと紹介", widget: string, required: false }
+              - { name: notice, label: "お知らせ（空なら非表示）", widget: string, required: false }
+              - { name: heroHeading, label: "大見出し", widget: text }
+              - { name: heroText, label: "リード文", widget: text }
+              - { name: heroImage, label: "トップの写真", widget: image, required: false }
+              - { name: logo, label: "ロゴ画像", widget: image, required: false }
+              - { name: flowHeading, label: "「はじめての方へ」見出し", widget: string, required: false }
+              - name: flow
+                label: "はじめての方へ"
+                widget: list
+                fields:
+                  - { name: title, label: "小見出し", widget: string }
+                  - { name: text, label: "説明", widget: text }
+              - name: access
+                label: "アクセス"
+                widget: object
+                fields:
+                  - { name: address, label: "住所", widget: string }
+                  - { name: parking, label: "駐車場", widget: string, required: false }
+                  - { name: tel, label: "電話", widget: string, required: false }
+                  - { name: email, label: "メール", widget: string, required: false }
+                  - { name: hours, label: "営業", widget: string, required: false }
+                  - { name: mapQuery, label: "地図に表示する場所", widget: string, required: false }
+          - name: lessons
+            label: "教室"
+            label_singular: "教室"
+            widget: list
+            summary: "{{fields.title}}（{{fields.status}}）"
+            fields:
+              - { name: id, label: "ID（半角英数・重複しないもの）", widget: string }
+              - { name: title, label: "教室の名前", widget: string }
+              - { name: status, label: "募集状況", widget: select, options: ["募集中","残りわずか","満席","受付終了"] }
+              - { name: schedule, label: "日程", widget: string, required: false }
+              - { name: price, label: "料金", widget: string }
+              - { name: duration, label: "所要時間", widget: string, required: false }
+              - { name: capacity, label: "定員", widget: string, required: false }
+              - { name: level, label: "対象", widget: string, required: false }
+              - { name: bring, label: "持ち物", widget: string, required: false }
+              - { name: desc, label: "説明文", widget: text }
+              - { name: image, label: "メイン写真", widget: image, required: false }
+              - { name: gallery, label: "当日のようす", widget: list, field: { name: photo, label: "写真", widget: image }, required: false }
+              - { name: videoUrl, label: "YouTube URL", widget: string, required: false }
+              - { name: reserveUrl, label: "Airリザーブ 予約URL", widget: string, required: false }
