@@ -43,6 +43,8 @@ collections:
                   - { name: email, label: "メール", widget: string, required: false }
                   - { name: hours, label: "営業", widget: string, required: false }
                   - { name: mapQuery, label: "地図に表示する場所", widget: string, required: false }
+              - { name: lessonsHeading, label: "「開催中の教室」見出し", widget: string, required: false }
+              - { name: lessonsIntro, label: "「開催中の教室」の説明文", widget: text, required: false }
           - name: lessons
             label: "教室"
             label_singular: "教室"
