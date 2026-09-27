@@ -36,9 +36,9 @@
       "level": "はじめての方も歓迎",
       "price": "3,500円",
       "desc": "いろいろな種類の多肉植物を使って、ガラス容器のなかに小さな世界をつくります。\nお手入れがかんたんなので、室内のインテリアにもぴったりです。",
-      "bring": "エプロン、持ち帰り用の袋",
+      "bring": "",
       "gallery": [],
-      "status": "募集中",
+      "status": "残りわずか",
       "reserveUrl": "https://airrsv.net/",
       "duration": "約90分",
       "videoUrl": "",
@@ -46,13 +46,13 @@
       "title": "多肉植物のミニテラリウム",
       "capacity": "各回4名",
       "id": "succulent-terrarium",
-      "image": "images/lesson-terrarium.jpg"
+      "image": "/images/img_0476.jpg"
     },
     {
       "level": "はじめて〜経験者",
       "price": "5,000円",
       "desc": "秋を感じる草花をたっぷり使って、玄関さきを彩る寄せ植えをつくります。\n鉢の選び方から土の配合まで、おうちで再現できるところまでお伝えします。",
-      "bring": "エプロン、手袋、園芸用ハサミ",
+      "bring": "",
       "gallery": [],
       "status": "募集中",
       "reserveUrl": "https://airrsv.net/",
@@ -62,7 +62,7 @@
       "title": "季節の花の寄せ植え（秋）",
       "capacity": "各回3名",
       "id": "autumn-container",
-      "image": "img_0476.jpg"
+      "image": "/images/img_0476.jpg"
     }
   ]
 }
